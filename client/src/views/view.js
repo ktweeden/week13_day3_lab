@@ -23,7 +23,6 @@ const CountriesView = function(){
       ul.appendChild(li);
 
     });
-
   };
 
   CountriesView.prototype.renderOne = function (countryName) {
@@ -31,6 +30,7 @@ const CountriesView = function(){
       const li = document.createElement('li');
       li.textContent = countryName;
       ul.appendChild(li);
+        
   };
 
 
