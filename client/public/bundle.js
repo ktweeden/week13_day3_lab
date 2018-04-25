@@ -78,7 +78,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\n\n//# sourceURL=webpack:///./client/src/app.js?");
+eval("// let countries = [];\n// const restCountriesRequest = new Request(\"https://restcountries.eu/rest/v2/all\");\n//\n// document.addEventListerner('DOMContentLoaded', () => {\n//\n//   const onCountrySelect = function(event){\n//     console.log(event.value);\n//   }\n//\n//\n//\n//\n//\n//   const countriesDropdown = document.querySelector('#countries-dropdown');\n//   countriesDropdown.addEventListener('change', onCountrySelect);\n// });\n//\n// const populateDropdown = function(){\n//   countries = restCountriesRequest.get();\n// }\n\n\n//# sourceURL=webpack:///./client/src/app.js?");
 
 /***/ })
 
