@@ -30,8 +30,9 @@ const CountriesView = function(){
       const li = document.createElement('li');
       li.textContent = countryName;
       ul.appendChild(li);
-        
+
   };
 
 
 }
+module.exports = CountriesView;
