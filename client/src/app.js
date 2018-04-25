@@ -1,4 +1,4 @@
-// let countries = [];
+
 // const restCountriesRequest = new Request("https://restcountries.eu/rest/v2/all");
 //
 // document.addEventListerner('DOMContentLoaded', () => {
