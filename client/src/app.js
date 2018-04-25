@@ -15,15 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  serverRequest.get(countriesView.renderDB);
+
   populateDropdown();
 });
 
 
 const onCountrySelect = function(event){
-
-  serverRequest.post( () => {
+  serverRequest.post({name: event.target.value}, (response) => {
     countriesView.renderOne(event.target.value);
-  },
-  event.target.value
-);
+  });
 }

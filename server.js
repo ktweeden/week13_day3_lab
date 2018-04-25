@@ -21,6 +21,18 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client){
     console.log('Listening on port 3000');
   });
 
+  server.get('/countries', function(req, res) {
+    countriesCollection.find().toArray(function(err, result) {
+      if(err) {
+        console.error(err);
+        res.status(500);
+        res.send();
+      }
+
+      res.json(result);
+    });
+  });
+
   server.post('/countries', function (req, res) {
     const newCountry = req.body
 
@@ -32,6 +44,7 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client){
       }
       console.log('Saved!');
       res.status(201);
+      console.log(result);
       res.json(result.ops[0]);
     });
   })

@@ -15,20 +15,17 @@ Request.prototype.get = function(callback){
   request.send();
 };
 
-Request.prototype.post = function(callback, dataToPost){
+Request.prototype.post = function(dataToPost, callback){
   const request = new XMLHttpRequest();
   request.open('POST', this.url);
-
   request.setRequestHeader('Content-Type', 'application/json')
 
   request.addEventListener('load', function(){
     if(request.status !== 201) return;
-
     const response = JSON.parse(request.responseText);
-
     callback(response);
-
   });
+
   const jsonDataToPost = JSON.stringify(dataToPost);
   request.send(jsonDataToPost);
 }
