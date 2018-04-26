@@ -47,6 +47,17 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client){
       console.log(result);
       res.json(result.ops[0]);
     });
-  })
+  });
+
+  server.delete('/countries', function(req, res) {
+    countriesCollection.deleteMany({}, function(err, result) {
+      if (err) {
+        console.error(err);
+        res.status(500);
+        res.send();
+      }
+      res.send();
+    });
+  });
 
 });

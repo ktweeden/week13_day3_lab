@@ -1,3 +1,7 @@
 h1 {
   font-style: italic: helvetica;
 }
+
+img {
+  max-width: 4rem;
+}

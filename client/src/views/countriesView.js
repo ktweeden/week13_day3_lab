@@ -1,10 +1,7 @@
 const CountriesView = function(){
-  this.countries = [];
 
   CountriesView.prototype.renderDropdown = function (apiCountriesData) {
     const select = document.querySelector('#countries-dropdown');
-
-    // this.countries = countriesData;
 
     apiCountriesData.forEach((country, index) => {
       const option = document.createElement('option');
@@ -20,15 +17,21 @@ const CountriesView = function(){
     dbCountriesData.forEach((country) => {
       const li = document.createElement('li');
       li.textContent = country.name;
+      const img = document.createElement('img');
+      img.src = country.flag;
+      li.appendChild(img);
       ul.appendChild(li);
 
     });
   };
 
-  CountriesView.prototype.renderOne = function (countryName) {
+  CountriesView.prototype.renderOne = function (country) {
       const ul = document.querySelector('#countries');
       const li = document.createElement('li');
-      li.textContent = countryName;
+      li.textContent = country.name;
+      const img = document.createElement('img');
+      img.src = country.flag;
+      li.appendChild(img);
       ul.appendChild(li);
 
   };

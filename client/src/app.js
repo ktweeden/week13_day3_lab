@@ -1,5 +1,6 @@
-const CountriesView = require('./views/view.js');
+const CountriesView = require('./views/countriesView.js');
 const Request = require('./services/request.js');
+const Country = require('./models/country.js');
 
 const restCountriesRequest = new Request("https://restcountries.eu/rest/v2/all");
 const serverRequest = new Request("http://localhost:3000/countries");
@@ -22,7 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 const onCountrySelect = function(event){
-  serverRequest.post({name: event.target.value}, (response) => {
-    countriesView.renderOne(event.target.value);
+  const restApiRequest = new Request(`https://restcountries.eu/rest/v2/name/${event.target.value}`);
+  restApiRequest.get((response) => {
+    const newCountry = new Country(response[0].name,response[0].latlng,response[0].flag);
+    console.log(response);
+    console.log(newCountry);
+    serverRequest.post(newCountry, (response) => {
+      countriesView.renderOne(newCountry);
+    });
   });
 }

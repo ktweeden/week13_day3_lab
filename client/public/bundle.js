@@ -78,7 +78,18 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const CountriesView = __webpack_require__(/*! ./views/view.js */ \"./client/src/views/view.js\");\nconst Request = __webpack_require__(/*! ./services/request.js */ \"./client/src/services/request.js\");\n\nconst restCountriesRequest = new Request(\"https://restcountries.eu/rest/v2/all\");\nconst serverRequest = new Request(\"http://localhost:3000/countries\");\nconst countriesView = new CountriesView();\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  const countriesDropdown = document.querySelector('#countries-dropdown');\n\n  const populateDropdown = function() {\n    restCountriesRequest.get((data)=> {\n      countriesView.renderDropdown(data);\n      countriesDropdown.addEventListener('change', onCountrySelect);\n    });\n  }\n\n  serverRequest.get(countriesView.renderDB);\n\n  populateDropdown();\n});\n\n\nconst onCountrySelect = function(event){\n  serverRequest.post({name: event.target.value}, (response) => {\n    countriesView.renderOne(event.target.value);\n  });\n}\n\n\n//# sourceURL=webpack:///./client/src/app.js?");
+eval("const CountriesView = __webpack_require__(/*! ./views/countriesView.js */ \"./client/src/views/countriesView.js\");\nconst Request = __webpack_require__(/*! ./services/request.js */ \"./client/src/services/request.js\");\nconst Country = __webpack_require__(/*! ./models/country.js */ \"./client/src/models/country.js\");\n\nconst restCountriesRequest = new Request(\"https://restcountries.eu/rest/v2/all\");\nconst serverRequest = new Request(\"http://localhost:3000/countries\");\nconst countriesView = new CountriesView();\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  const countriesDropdown = document.querySelector('#countries-dropdown');\n\n  const populateDropdown = function() {\n    restCountriesRequest.get((data)=> {\n      countriesView.renderDropdown(data);\n      countriesDropdown.addEventListener('change', onCountrySelect);\n    });\n  }\n\n  serverRequest.get(countriesView.renderDB);\n\n  populateDropdown();\n});\n\n\nconst onCountrySelect = function(event){\n  const restApiRequest = new Request(`https://restcountries.eu/rest/v2/name/${event.target.value}`);\n  restApiRequest.get((response) => {\n    const newCountry = new Country(response[0].name,response[0].latlng,response[0].flag);\n    console.log(response);\n    console.log(newCountry);\n    serverRequest.post(newCountry, (response) => {\n      countriesView.renderOne(newCountry);\n    });\n  });\n}\n\n\n//# sourceURL=webpack:///./client/src/app.js?");
+
+/***/ }),
+
+/***/ "./client/src/models/country.js":
+/*!**************************************!*\
+  !*** ./client/src/models/country.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const Country = function(name, latlng, flag) {\n  this.name = name;\n  this.latlng = latlng;\n  this.flag = flag;\n}\n\nmodule.exports = Country\n\n\n//# sourceURL=webpack:///./client/src/models/country.js?");
 
 /***/ }),
 
@@ -93,14 +104,14 @@ eval("const Request = function(url){\n  this.url = url;\n}\n\nRequest.prototype.
 
 /***/ }),
 
-/***/ "./client/src/views/view.js":
-/*!**********************************!*\
-  !*** ./client/src/views/view.js ***!
-  \**********************************/
+/***/ "./client/src/views/countriesView.js":
+/*!*******************************************!*\
+  !*** ./client/src/views/countriesView.js ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("const CountriesView = function(){\n  this.countries = [];\n\n  CountriesView.prototype.renderDropdown = function (apiCountriesData) {\n    const select = document.querySelector('#countries-dropdown');\n\n    // this.countries = countriesData;\n\n    apiCountriesData.forEach((country, index) => {\n      const option = document.createElement('option');\n      option.value = country.name;\n      option.textContent = country.name;\n      select.appendChild(option);\n    });\n  };\n\n  CountriesView.prototype.renderDB = function (dbCountriesData) {\n      const ul = document.querySelector('#countries');\n\n    dbCountriesData.forEach((country) => {\n      const li = document.createElement('li');\n      li.textContent = country.name;\n      ul.appendChild(li);\n\n    });\n  };\n\n  CountriesView.prototype.renderOne = function (countryName) {\n      const ul = document.querySelector('#countries');\n      const li = document.createElement('li');\n      li.textContent = countryName;\n      ul.appendChild(li);\n\n  };\n\n\n}\nmodule.exports = CountriesView;\n\n\n//# sourceURL=webpack:///./client/src/views/view.js?");
+eval("const CountriesView = function(){\n\n  CountriesView.prototype.renderDropdown = function (apiCountriesData) {\n    const select = document.querySelector('#countries-dropdown');\n\n    apiCountriesData.forEach((country, index) => {\n      const option = document.createElement('option');\n      option.value = country.name;\n      option.textContent = country.name;\n      select.appendChild(option);\n    });\n  };\n\n  CountriesView.prototype.renderDB = function (dbCountriesData) {\n      const ul = document.querySelector('#countries');\n\n    dbCountriesData.forEach((country) => {\n      const li = document.createElement('li');\n      li.textContent = country.name;\n      const img = document.createElement('img');\n      img.src = country.flag;\n      li.appendChild(img);\n      ul.appendChild(li);\n\n    });\n  };\n\n  CountriesView.prototype.renderOne = function (country) {\n      const ul = document.querySelector('#countries');\n      const li = document.createElement('li');\n      li.textContent = country.name;\n      const img = document.createElement('img');\n      img.src = country.flag;\n      li.appendChild(img);\n      ul.appendChild(li);\n\n  };\n\n\n}\nmodule.exports = CountriesView;\n\n\n//# sourceURL=webpack:///./client/src/views/countriesView.js?");
 
 /***/ })
 
